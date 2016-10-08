@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            var table = $('#employeeTable').DataTable({
+                "ajax": "employee/loadEmployeeAjax",
+                "columns": [
+                    {"data": "id"},
+                    {"data": "code"},
+                    {"data": "name"},
+                    {"data": "age"},
+                    {"data": "sex"},
+                    {"data": "description"}
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                    }
+                ],
+                "order": [[0, 'desc']]
+            });
+
+            $('#employeeTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+            $("#deleteRow").click(function () {
+                var ids = "";
+                var dt = $('#employeeTable').DataTable();
+                dt.rows('.selected').data().each(function (item) {
+                    ids += item["id"] + ',';
+                });
+                ids = ids.substr(0, ids.length - 1);
+                $.post("employee/deleteEmployee", {"ids": ids}, function (result) {
+                    dt.ajax.reload();
+                });
+            });
+
+            $("#addRow").click(function(){
+                addWindow("addEmployeeDialog","<span th:text='#{title.add.employee}'/>","employee/createEmployee");
+            });
+            $("#updateRow").click(function(){
+                if($('#employeeTable').DataTable().rows('.selected').data().length !== 1){
+                    addBackConfirm("<span th:text='#{message.warn.onlyOneShouldSelect}'/>");
+                    return;
+                }
+                var id = $('#employeeTable').DataTable().rows('.selected').data()[0]["id"];
+                addWindow("updateEmployeeDialog","<span th:text='#{title.update.employee}'/>","employee/updateEmployee?id="+id);
+            });
+        });
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="employeeTable" class="display">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div th:text="#{title.id}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.code}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.name}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.age}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.sex}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.description}"/>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="addRow" class="btn btn-primary"><span class="glyphicon glyphicon-plus"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="updateRow" class="btn btn-primary"><span class="glyphicon glyphicon-edit"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="deleteRow" class="btn btn-primary"><span class="glyphicon glyphicon-trash"/></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

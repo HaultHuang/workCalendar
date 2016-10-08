@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<script>
+    $(function () {
+
+        var detailTable = $('#employeeDetailTable').DataTable({
+            "columnDefs": [
+                {
+                    "targets": [3],
+                    "visible": false,
+                },
+                {
+                    "targets": [4],
+                    "visible": false,
+                },
+                {
+                    "targets": [5],
+                    "visible": false,
+                }
+            ]
+        });
+        $('#employeeDetailTable tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $("#employeeDetailTable_wrapper .fg-toolbar").hide();
+
+        $('#addDetailRow').on('click', function () {
+            addWindow("addEmployeeDialog","<span th:text='#{title.add.employee}'/>","calendarClass/addEmployeeDialog");
+        });
+
+        $("#deleteDetailRow").click(function () {
+            detailTable.row('.selected').remove().draw(false);
+        });
+    });
+
+
+</script>
+<form th:object="${calendarClass}" th:action="@{/calendarClass/saveCalendarClass}" method="post">
+    <div class="modal-body">
+        <div class="container-fluid">
+            <input th:field="*{id}" class="hide"/>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarClass.code}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{code}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarClass.name}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{name}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <table id="employeeDetailTable" class="display">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="employeeDetailDto,iterStat:${calendarClass.employeeDtos}">
+                            <td><input type="text" readonly="true" th:value="${employeeDetailDto.id}" th:field="*{employeeDtos[__${iterStat.index}__].id}"/></td>
+                            <td><input type="text" readonly="true" th:value="${employeeDetailDto.code}" th:field="*{employeeDtos[__${iterStat.index}__].code}"/></td>
+                            <td><input type="text" readonly="true" th:value="${employeeDetailDto.name}" th:field="*{employeeDtos[__${iterStat.index}__].name}"/></td>
+                            <td><input type="text" readonly="true" th:value="${employeeDetailDto.age}" th:field="*{employeeDtos[__${iterStat.index}__].age}"/></td>
+                            <td><input type="text" readonly="true" th:value="${employeeDetailDto.sex}" th:field="*{employeeDtos[__${iterStat.index}__].sex}"/></td>
+                            <td><input type="text" readonly="true" th:value="${employeeDetailDto.description}" th:field="*{employeeDtos[__${iterStat.index}__].description}"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-2">
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="addDetailRow" class="btn btn-primary "><span class="glyphicon glyphicon-plus"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="deleteDetailRow" class="btn btn-primary"><span
+                                        class="glyphicon glyphicon-trash"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary" id="saveCalendarClass"><span
+                            th:text="#{button.save}"/></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            th:text="#{button.close}"/></button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+</html>

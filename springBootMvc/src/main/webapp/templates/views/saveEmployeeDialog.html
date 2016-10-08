@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<form th:object="${employee}" th:action="@{/employee/saveEmployee}" method="post">
+    <div class="modal-body">
+        <div class="container-fluid">
+            <input th:field="*{id}" class="hide"/>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.employee.code}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{code}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.employee.name}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{name}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.employee.age}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{age}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.employee.sex}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="radio" name="sex" value="男" th:field="*{sex}"/><label><span
+                        th:text="#{label.employee.male}"/></label>
+                    <input type="radio" name="sex" value="女" th:field="*{sex}"/><label><span
+                        th:text="#{label.employee.female}"/></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.employee.description}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <textarea size="5" class="form-control" th:field="*{description}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary" id="saveEmployee"><span
+                            th:text="#{button.save}"/></button>
+                </div>
+                <div class="col-md-2">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                        th:text="#{button.close}"/></button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+</html>

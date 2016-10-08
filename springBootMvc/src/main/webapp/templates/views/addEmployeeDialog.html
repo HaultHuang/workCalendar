@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            var table = $('#employeeTable').DataTable({
+                "ajax": "employee/loadEmployeeAjax",
+                "columns": [
+                    {"data": "id"},
+                    {"data": "code"},
+                    {"data": "name"},
+                    {"data": "age"},
+                    {"data": "sex"},
+                    {"data": "description"}
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                    }
+                ],
+                "order": [[0, 'desc']]
+            });
+
+            $('#employeeTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+            $("#addEmployeeRow").click(function(){
+                $('#employeeTable').DataTable().rows('.selected').data().each(function(item){
+                    var detailSize = $('#employeeDetailTable').DataTable().rows().data().length;
+                    $('#employeeDetailTable').DataTable().row.add([
+                            '<input type="text" readonly="true" value="'+item.id+'" name="employeeDtos['+detailSize+'].id"/>',
+                            '<input  type="text" readonly="true" value="'+item.code+'" name="employeeDtos['+detailSize+'].code"/>',
+                            '<input type="text" readonly="true"  value="'+item.name+'" name="employeeDtos['+detailSize+'].name"/>',
+                             '<input type="text" readonly="true"  value="'+item.age+'" name="employeeDtos['+detailSize+'].age"/>',
+                             '<input  type="text" readonly="true" value="'+item.sex+'" name="employeeDtos['+detailSize+'].sex"/>',
+                             '<input  type="text" readonly="true" value="'+item.description+'" name="employeeDtos['+detailSize+'].description"/>'
+                    ]).draw(false);
+                });
+                closeDialog("addEmployeeDialog");
+            });
+        });
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="employeeTable" class="display">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div th:text="#{title.id}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.code}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.name}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.age}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.sex}"/>
+                        </th>
+                        <th>
+                            <div th:text="#{title.description}"/>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="addEmployeeRow" class="btn btn-primary"><span class="glyphicon glyphicon-plus"/></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

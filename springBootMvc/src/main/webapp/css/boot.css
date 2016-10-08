@@ -1,0 +1,62 @@
+.content-view{
+    padding-top: 80px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.footer-view{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.dataTables_info, .dataTables_length, #table_id_filter{
+    color: #FFF !important;
+}
+
+.dataTables_length select, #table_id_filter input{
+    color: #000 !important;
+}
+
+.row{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+td.details-control {
+    background: url('../images/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.details td.details-control {
+    background: url('../images/details_close.png') no-repeat center center;
+}
+
+.dataTables_filter input{
+    color: black
+}
+
+.ajax-load-cover {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    filter: alpha(opacity = 60);
+    background-color: #777;
+    z-index: 9999;
+    left: 0;
+    display: none;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+}
+
+.ajax-load-cover>img {
+    top: 46%;
+    left: 46%;
+    height: 50px;
+    position: absolute;
+}
+
+.ui-datepicker-month, .ui-datepicker-year{
+    color: black;
+}

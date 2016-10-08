@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script>
+    $(function(){
+        newDateTimePicker("start");
+        newDateTimePicker("end");
+    });
+
+</script>
+
+<form th:object="${calendarEvent}" th:action="@{/calendarEvent/saveCalendarEvent}" method="post">
+    <div class="modal-body">
+        <div class="container-fluid">
+            <input th:field="*{id}" class="hide"/>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarEvent.title}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{title}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarEvent.start}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input id="start" type="text" class="form-control" th:field="*{start}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarEvent.end}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input id="end" type="text" class="form-control" th:field="*{end}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarEvent.color}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{color}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarEvent.textColor}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{textColor}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarEvent.allDay}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="checkbox" th:field="*{allDay}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary" id="saveEmployee"><span
+                            th:text="#{button.save}"/></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            th:text="#{button.close}"/></button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+</html>

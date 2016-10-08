@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            $('#menuTable').DataTable();
+        });
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="menuTable" class="display">
+                    <thead>
+                    <tr>
+                        <th>Menu Id</th>
+                        <th>Menu Name</th>
+                        <th>Menu URL</th>
+                        <th>Order</th>
+                        <th>Active</th>
+                        <th>Create Date</th>
+                        <th>Update Date</th>
+                        <th>Active Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="menu:${menus}">
+                        <td th:text="${menu.id}"/>
+                        <td th:text="${menu.name}"/>
+                        <td th:text="${menu.url}"/>
+                        <td th:text="${menu.order}"/>
+                        <td>
+                            <input type="checkbox" th:checked="${menu.flagActive}"/>
+                        </td>
+                        <td th:text="${menu.createDate}"/>
+                        <td th:text="${menu.updateDate}"/>
+                        <td th:text="${menu.activeDate}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary">Add Row</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

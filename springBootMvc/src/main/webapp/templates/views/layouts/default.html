@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <link th:href="@{/jquery-ui/jquery-ui.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/dataTable/media/css/dataTables.jqueryui.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/boot.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{fullcalendar/fullcalendar.css}" rel='stylesheet'/>
+    <link th:href="@{fullcalendar-scheduler/scheduler.css}" rel='stylesheet'/>
+    <link th:href="@{/jquery-ui/jquery-ui-timepicker-addon.css}" rel="stylesheet" type="text/css"/>
+
+    <script th:src="@{/dataTable/media/js/jquery.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{/jquery-ui/jquery-ui.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{/dataTable/media/js/jquery.dataTables.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{/dataTable/media/js/dataTables.jqueryui.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{/bootstrap/js/bootstrap-dialog.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{/js/boot.js}" type="text/javascript" charset="utf8"/>
+
+    <script th:src="@{fullcalendar/lib/moment.min.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{fullcalendar/fullcalendar.js}" type="text/javascript" charset="utf8"/>
+    <script th:src="@{fullcalendar-scheduler/scheduler.js}" type="text/javascript" charset="utf8"/>
+    <!--<script th:src="@{fullcalendar/locale/zh-cn.js}" type="text/javascript" charset="utf8"/>-->
+    <script th:src="@{/jquery-ui/jquery-ui-timepicker-addon.js}" type="text/javascript" charset="utf8"/>
+</head>
+<body>
+<div class="header-view" th:include="fragments/header :: header">
+    Header1
+</div>
+<div class="content-view" th:include="${view} :: content">
+    Content
+</div>
+<!--<div class="footer-view" th:include="fragments/footer :: footer">
+    Footer
+</div>-->
+<div id="ajaxLoadCover" class="ajax-load-cover">
+    <img alt="" th:src="@{/images/loading.gif}" />
+</div>
+</body>
+</html>

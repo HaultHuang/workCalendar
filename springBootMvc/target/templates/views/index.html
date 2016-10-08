@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/boot.css}" rel="stylesheet"/>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}" type="text/javascript"/>
+    <script th:src="@{/js/boot.js}"/>
+
+    <title>Spring Boot and Thymeleaf example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:fragment="content">
+    <button class="btn btn-primary">Boot</button>
+
+    <h3>Spring Boot and Thymeleaf</h3>
+    <h3 th:text="'Profile:'+${profile}"></h3>
+    <p>Hello World!</p>
+    <p th:text="'Hello, ' + ${name} + '!'"/>
+
+    <p th:text="${code}">Good morning!</p>
+
+    I18N message(index.home):
+    <p th:text="#{index.home}"/>
+
+    Locale country:<span th:text="${#locale.country}"></span>
+    <br/>
+    JPA Query from Database:
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>User Code</th>
+            <th>User Name</th>
+        </tr>
+        <tr th:each="user:${users}">
+            <td th:text="${user.id}">UserId</td>
+            <td th:text="${user.code}">UserCode</td>
+            <td th:text="${user.name}">UserName</td>
+        </tr>
+    </table>
+    <br/>
+    </table>
+
+
+</div>
+</body>
+</html>

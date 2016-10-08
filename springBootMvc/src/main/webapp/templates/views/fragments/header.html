@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="header" class="col-md-12">
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+    </script>
+    <div class="row col-md-12">
+        <ul class="nav nav-tabs" id="menuTabs">
+            <li th:each="menu:${menus}"  th:class="${activeUrl}==${menu.url}?active">
+                <a th:href="${menu.url}"><span th:text="${menu.name}"/></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</html>

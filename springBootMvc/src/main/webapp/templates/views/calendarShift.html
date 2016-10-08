@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            var table = $('#calendarShiftTable').DataTable({
+                "ajax": "calendarShift/loadCalendarShiftAjax",
+                "columns": [
+                    {"data": "id"},
+                    {"data": "code"},
+                    {"data": "name"}
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                    }
+                ],
+                "order": [[0, 'desc']]
+            });
+
+
+            $('#calendarShiftTable tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+            } );
+
+            $("#deleteRow").click(function () {
+                var ids = "";
+                var dt = $('#calendarShiftTable').DataTable();
+                dt.rows('.selected').data().each(function (item) {
+                    ids += item["id"] + ',';
+                });
+                ids = ids.substr(0, ids.length - 1);
+                $.post("calendarShift/deleteCalendarShift", {"ids": ids}, function (result) {
+                    dt.ajax.reload();
+                });
+            });
+
+            $("#addRow").click(function () {
+                addWindow("addCalendarShiftDialog", "<span th:text='#{title.add.calendarShift}'/>", "calendarShift/createCalendarShift");
+            });
+            $("#updateRow").click(function () {
+                if ($('#calendarShiftTable').DataTable().rows('.selected').data().length !== 1) {
+                    addBackConfirm("<span th:text='#{message.warn.onlyOneShouldSelect}'/>");
+                    return;
+                }
+                var id = $('#calendarShiftTable').DataTable().rows('.selected').data()[0]["id"];
+                addWindow("updateCalendarShiftDialog", "<span th:text='#{title.update.calendarShift}'/>", "calendarShift/updateCalendarShift?id=" + id);
+            });
+        });
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="calendarShiftTable" class="display">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="addRow" class="btn btn-primary"><span class="glyphicon glyphicon-plus"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="updateRow" class="btn btn-primary"><span class="glyphicon glyphicon-edit"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="deleteRow" class="btn btn-primary"><span class="glyphicon glyphicon-trash"/></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

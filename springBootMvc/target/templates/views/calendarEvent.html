@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            var table = $('#calendarEventTable').DataTable();
+
+            $('#calendarEventTable tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+            } );
+
+            $('#addRow').on( 'click', function () {
+                table.row.add( ['','','','',''] ).draw( false );
+            } );
+
+            //table.rows('.selected').data()
+        });
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="calendarEventTable" class="display">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Color</th>
+                        <th>Text Color</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="event:${calendarEvents}">
+                        <td th:text="${event.title}"/>
+                        <td th:text="${event.start}"/>
+                        <td th:text="${event.end}"/>
+                        <td th:text="${event.color}"/>
+                        <td th:text="${event.textColor}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button id="addRow" class="btn btn-primary"><span th:text="#{button.add.row}"/></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<script>
+    $(function () {
+
+        var detailTable = $('#calendarShiftDetailTable').DataTable({
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                },
+                {
+                    "targets": [1],
+                    "visible": false,
+                },
+                {
+                    "targets": [2],
+                    "visible": false,
+                }
+            ]
+        });
+        addAllTimePicker();
+        $('#calendarShiftDetailTable tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $("#calendarShiftDetailTable_wrapper .fg-toolbar").hide();
+        $('#addDetailRow').on('click', function () {
+            var detailSize = $('#calendarShiftDetailTable').DataTable().rows().data().length;
+            detailTable.row.add([
+                '<input type="text" class="time" readonly="true" name="workHourDtos['+detailSize+'].id}"/>',
+                '<input type="text" class="time" readonly="true" name="workHourDtos['+detailSize+'].order" value="'+detailSize+'"/>',
+                '<input type="text" class="time" readonly="true" name="workHourDtos['+detailSize+'].shiftId"/>',
+                '<input type="text" class="time" readonly="true" name="workHourDtos['+detailSize+'].startTime"/>',
+                '<input type="text" class="time" readonly="true" name="workHourDtos['+detailSize+'].endTime"/>'
+            ]).draw(false);
+            addAllTimePicker();
+        });
+
+        $("#deleteDetailRow").click(function () {
+            detailTable.row('.selected').remove().draw(false);
+        });
+
+        function addAllTimePicker() {
+            $(".time").each(function () {
+                $(this).timepicker();
+            });
+        }
+    });
+
+
+</script>
+
+<form th:object="${calendarShift}" th:action="@{/calendarShift/saveCalendarShift}" method="post">
+    <div class="modal-body">
+        <div class="container-fluid">
+            <input th:field="*{id}" class="hide"/>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarShift.code}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{code}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><span th:text="#{label.calendarShift.name}"/></label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" th:field="*{name}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <table id="calendarShiftDetailTable" class="display">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Order</th>
+                            <th>Shift Id</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="workHourDto,iterStat:${calendarShift.workHourDtos}">
+                            <td th:text="${workHourDto.id}" th:field="*{workHourDtos[__${iterStat.index}__].id}"/>
+                            <td th:text="${workHourDto.order}" th:field="*{workHourDtos[__${iterStat.index}__].order}"/>
+                            <td th:text="${workHourDto.shiftId}" th:field="*{workHourDtos[__${iterStat.index}__].shiftId}"/>
+                            <td><input type="text" class="time" readonly="true" th:value="${workHourDto.startTime}" th:field="*{workHourDtos[__${iterStat.index}__].startTime}"/></td>
+                            <td><input type="text" class="time" readonly="true" th:value="${workHourDto.endTime}" th:field="*{workHourDtos[__${iterStat.index}__].endTime}"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-2">
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="addDetailRow" class="btn btn-primary "><span class="glyphicon glyphicon-plus"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="deleteDetailRow" class="btn btn-primary"><span
+                                        class="glyphicon glyphicon-trash"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary" id="saveCalendarShift"><span
+                            th:text="#{button.save}"/></button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            th:text="#{button.close}"/></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+</html>

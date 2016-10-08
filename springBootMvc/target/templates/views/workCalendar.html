@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<div th:fragment="content">
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            newDatePicker("startDate");
+            newDatePicker("endDate");
+            // page is now ready, initialize the calendar...
+            $('#calendar').fullCalendar({
+                height: 650,
+                header: {
+                    left: 'prev,next today myCustomButton',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,list'
+                },
+                resources: 'loadResource',
+                events: 'loadEvent',
+                nowIndicator: true,
+                displayEventTime: true,
+                eventLimit:true
+            })
+
+        });
+    </script>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label><h2 th:text="#{calendar.setting.label}"></h2></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label><span th:text="#{calendar.shift}"></span></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control input-sm"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label><span th:text="#{calendar.classes}"></span></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control input-sm"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label><span th:text="#{calendar.startDate}"></span></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="startDate" data-provide="datepicker" type="text" class="form-control input-sm"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label><span th:text="#{calendar.endDate}"></span></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="endDate" type="text" class="form-control input-sm datepicker"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <button class="btn btn-primary"><span th:text="#{calendar.generate}"></span></button>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <button class="btn btn-danger"><span th:text="#{calendar.delete}"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div id='calendar'></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

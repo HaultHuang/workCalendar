@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            var table = $('#employeeTable').DataTable({
+                "ajax": "loadEmployeeAjax",
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                    }
+                ],
+                "order": [[0, 'desc']]
+            });
+
+            $('#employeeTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+            $("#deleteRow").click(function(){
+                var ids = [];
+                table.rows('.selected').data().each(function(item){
+                    ids.push(item[0]);
+                });
+                $.post("@{/deleteEmployee}",{"ids":ids},function(result){
+
+                });
+            });
+        });
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="employeeTable" class="display">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <!--<tbody>
+                    <tr th:each="employee:${employees}">
+                        <td th:text="${employee.id}"/>
+                        <td th:text="${employee.code}"/>
+                        <td th:text="${employee.name}"/>
+                        <td th:text="${employee.age}"/>
+                        <td th:text="${employee.sex}"/>
+                        <td th:text="${employee.description}"/>
+                    </tr>
+                    </tbody>-->
+                </table>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="addRow" class="btn btn-primary" data-toggle="modal" data-target="#addEmployModal"><span
+                                th:text="#{button.add.row}"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="deleteRow" class="btn btn-primary"><span
+                                th:text="#{button.delete.row}"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="updateRow" class="btn btn-primary"><span
+                                th:text="#{button.update.row}"/></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Dialog -->
+            <div class="modal fade" id="addEmployModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:object="${employee}" th:action="@{/addEmployee}" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span
+                                        aria-hidden="true">&times;</span><span class="sr-only"><span
+                                        th:text="#{button.close}"/></span></button>
+                                <h4 class="modal-title" id="addModalLabel"><span th:text="#{title.add.employee}"></span>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label><span th:text="#{label.employee.code}"/></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" th:field="*{code}"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label><span th:text="#{label.employee.name}"/></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" th:field="*{name}"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label><span th:text="#{label.employee.age}"/></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" th:field="*{age}"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label><span th:text="#{label.employee.sex}"/></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="radio" name="sex" value="男" th:field="*{sex}"/><label><span
+                                                th:text="#{label.employee.male}"/></label>
+                                            <input type="radio" name="sex" value="女" th:field="*{sex}"/><label><span
+                                                th:text="#{label.employee.female}"/></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label><span th:text="#{label.employee.description}"/></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <textarea size="5" class="form-control" th:field="*{description}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                        th:text="#{button.close}"/></button>
+                                <button type="submit" class="btn btn-primary" id="saveEmployee"><span
+                                        th:text="#{button.save}"/></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

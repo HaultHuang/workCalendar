@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            var table = $('#calendarClassTable').DataTable({
+                "ajax": "calendarClass/loadCalendarClassAjax",
+                "columns": [
+                    {
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ""
+                    },
+                    {"data": "id"},
+                    {"data": "code"},
+                    {"data": "name"}
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [1],
+                        "visible": false,
+                    }
+                ],
+                "order": [[1, 'desc']]
+            });
+
+            $('#calendarClassTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+
+            // Array to track the ids of the details displayed rows
+            var detailRows = [];
+
+            $('#calendarClassTable tbody').on('click', 'tr td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+                var idx = $.inArray(tr.attr('id'), detailRows);
+
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('id'));
+                    }
+                }
+            });
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            table.on('draw', function () {
+                $.each(detailRows, function (i, id) {
+                    $('#' + id + ' td.details-control').trigger('click');
+                });
+            });
+
+
+            $("#deleteRow").click(function () {
+                var ids = "";
+                var dt = $('#calendarClassTable').DataTable();
+                dt.rows('.selected').data().each(function (item) {
+                    ids += item["id"] + ',';
+                });
+                ids = ids.substr(0, ids.length - 1);
+                $.post("calendarClass/deleteCalendarClass", {"ids": ids}, function (result) {
+                    dt.ajax.reload();
+                });
+            });
+
+            $("#addRow").click(function () {
+                addWindow("addCalendarClassDialog", "<span th:text='#{title.add.calendarClass}'/>", "calendarClass/createCalendarClass",[900]);
+            });
+            $("#updateRow").click(function () {
+                if ($('#calendarClassTable').DataTable().rows('.selected').data().length !== 1) {
+                    addBackConfirm("<span th:text='#{message.warn.onlyOneShouldSelect}'/>");
+                    return;
+                }
+                var id = $('#calendarClassTable').DataTable().rows('.selected').data()[0]["id"];
+                addWindow("updateCalendarClassDialog", "<span th:text='#{title.update.calendarClass}'/>", "calendarClass/updateCalendarClass?id=" + id,[900]);
+            });
+        });
+
+        function format(d) {
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                    '<tr>' +
+                    '<td>Id:</td>' +
+                    '<td>' + d.id + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Code:</td>' +
+                    '<td>' + d.code + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Name:</td>' +
+                    '<td>' + d.name + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Extra info:</td>' +
+                    '<td>And any further details here (images etc)...</td>' +
+                    '</tr>' +
+                    '</table>';
+        }
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="calendarClassTable" class="display" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th class="details-control"/>
+                        <th>Id</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="addRow" class="btn btn-primary"><span class="glyphicon glyphicon-plus"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="updateRow" class="btn btn-primary"><span class="glyphicon glyphicon-edit"/></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="deleteRow" class="btn btn-primary"><span class="glyphicon glyphicon-trash"/></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

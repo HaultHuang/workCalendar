@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="content">
+
+    <script type="text/javascript">
+        $(function () {
+            var table = $('#calendarShiftTable').DataTable();
+
+            $('#calendarShiftTable tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+            } );
+
+            $('#addRow').on( 'click', function () {
+                table.row.add( ['',''] ).draw( false );
+            } );
+        });
+
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <table id="calendarShiftTable" class="display">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="shift:${calendarShifts}">
+                        <td th:text="${shift.code}"/>
+                        <td th:text="${shift.name}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button id="addRow" class="btn btn-primary"><span th:text="#{button.add.row}"/></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
