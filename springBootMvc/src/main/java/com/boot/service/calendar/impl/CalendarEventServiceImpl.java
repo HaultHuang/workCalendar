@@ -44,4 +44,9 @@ public class CalendarEventServiceImpl implements CalendarEventService {
     public CalendarEventDto findCalendarEventById(String id) {
         return mapperFacade.map(calendarEventRepository.findOne(Long.valueOf(id)), CalendarEventDto.class);
     }
+
+    @Override
+    public void deleteAllInBatch() {
+        calendarEventRepository.deleteAllInBatch();
+    }
 }

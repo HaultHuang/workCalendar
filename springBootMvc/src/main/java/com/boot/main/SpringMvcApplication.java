@@ -6,7 +6,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @SpringBootApplication(scanBasePackages = "main.java.com.boot")
 @EntityScan("main.java.com.boot.model.jpa")
 @EnableJpaRepositories("main.java.com.boot.repository.jpa")
-@EnableMongoRepositories("main.java.com.boot.repository.mongo")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringMvcApplication extends SpringBootServletInitializer {
 

@@ -18,4 +18,6 @@ public interface CalendarEventService {
 
     CalendarEventDto findCalendarEventById(String id);
 
+    void deleteAllInBatch();
+
 }

@@ -23,9 +23,22 @@
                 nowIndicator: true,
                 displayEventTime: true,
                 eventLimit: true
-            })
-
+            });
         });
+
+        function generate(){
+            var idShfit = $("#selectShift").val();
+            var idClass = $("#selectClass").val();
+            var startDateStr = $("#startDate").val();
+            var endDateStr = $("#endDate").val();
+            var arr1 = startDateStr.split("-");
+            var arr2 = endDateStr.split("-");
+            var startDate = new Date(arr1[0],parseInt(arr1[1])-1,arr1[2]);
+            var endDate = new Date(arr2[0],parseInt(arr2[1])-1,arr2[2]);
+            $.post("generate", {"idShift": idShfit,"idClass":idClass,"startDate":startDate,"endDate":endDate}, function (result) {
+                $('#calendar').fullCalendar( 'refetchEvents' );
+            });
+        }
     </script>
 
     <div class="container-fluid">
@@ -41,9 +54,9 @@
                         <label><span th:text="#{calendar.shift}"></span></label>
                     </div>
                     <div class="col-md-8">
-                        <select class="form-control input-sm">
+                        <select class="form-control input-sm" id="selectShift">
                             <div th:each="calendarShift:${calendarShifts}">
-                                <option th:value="${calendarShift.code}"><span th:text="${calendarShift.name}"/>
+                                <option th:value="${calendarShift.id}"><span th:text="${calendarShift.name}"/>
                                 </option>
                             </div>
                         </select>
@@ -54,9 +67,9 @@
                         <label><span th:text="#{calendar.classes}"></span></label>
                     </div>
                     <div class="col-md-8">
-                        <select class="form-control input-sm">
+                        <select class="form-control input-sm" id="selectClass">
                             <div th:each="calendarClass:${calendarClasses}">
-                                <option th:value="${calendarClass.code}"><span th:text="${calendarClass.name}"/>
+                                <option th:value="${calendarClass.id}"><span th:text="${calendarClass.name}"/>
                                 </option>
                             </div>
                         </select>
@@ -80,7 +93,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <button class="btn btn-primary"><span th:text="#{calendar.generate}"></span></button>
+                        <button class="btn btn-primary" onclick="generate();"><span th:text="#{calendar.generate}"></span></button>
                     </div>
                 </div>
             </div>

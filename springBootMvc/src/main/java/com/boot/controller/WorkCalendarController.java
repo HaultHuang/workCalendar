@@ -2,16 +2,15 @@ package main.java.com.boot.controller;
 
 import main.java.com.boot.dto.calendar.CalendarEventDto;
 import main.java.com.boot.dto.calendar.CalendarResourceDto;
-import main.java.com.boot.service.calendar.CalendarClassService;
-import main.java.com.boot.service.calendar.CalendarEventService;
-import main.java.com.boot.service.calendar.CalendarResourceService;
-import main.java.com.boot.service.calendar.CalendarShiftService;
+import main.java.com.boot.service.calendar.*;
+import main.java.com.boot.service.calendar.impl.WorkCalendarServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +31,8 @@ public class WorkCalendarController {
     @Resource
     private CalendarShiftService calendarShiftService;
 
+    @Resource
+    private WorkCalendarService workCalendarService;
 
     @RequestMapping("workCalendar")
     public String loadWorkCalendar(Model model) {
@@ -54,5 +55,9 @@ public class WorkCalendarController {
         return calendarEventService.findAllCalendarEvents();
     }
 
-
+    @RequestMapping("generate")
+    public String generate(String idShift,String idClass,Date startDate,Date endDate){
+        workCalendarService.generate(idShift,idClass,startDate,endDate);
+        return "redirect:/workCalendar";
+    }
 }

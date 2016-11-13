@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CalendarShiftRepository extends JpaRepository<CalendarShift,Long>{
+
+    CalendarShift findByCode(String code);
 }

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CalendarClassRepository extends JpaRepository<CalendarClass,Long> {
+
+    CalendarClass findByCode(String code);
 }

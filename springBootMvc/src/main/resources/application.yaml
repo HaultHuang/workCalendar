@@ -3,27 +3,14 @@ server:
   port: 8082
 
 spring:
-  profiles:
-    active: test
   messages:
     basename: i18n
   devtools:
     restart:
       additional-paths: src/main/
   thymeleaf:
-    prefix: /templates/views/
+    prefix: templates/views/
     suffix: .html
-#  resources:
-#    chain:
-#      strategy:
-#        content:
-#          enabled: true
-#          paths: /**
-#        fixed:
-#          enabled: true
-#          paths: /js/**
-#          version: v12
-
 
   datasource:
       url: jdbc:mysql://localhost:3306/SpringBootMvc
