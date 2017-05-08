@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public class Test {
     public static void main(String[] args) {
-        String a = new BCryptPasswordEncoder().encode("user");
+        String a = new BCryptPasswordEncoder().encode("user11");
         System.out.printf(a);
     }
 }
